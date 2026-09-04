@@ -17,7 +17,7 @@ if (string.IsNullOrWhiteSpace(connectionString))
 
 // Conexión con SQL Server
 builder.Services.AddDbContext<SantaUrsulaDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseNpgsql(connectionString));
 
 // Servicios básicos de la API
 builder.Services.AddControllers()

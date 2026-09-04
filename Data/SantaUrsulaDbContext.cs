@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SantaUrsula.API.Data.Models;
@@ -72,7 +72,7 @@ public partial class SantaUrsulaDbContext : DbContext
 
             entity.Property(e => e.Accion).HasMaxLength(20);
             entity.Property(e => e.DireccionIP).HasMaxLength(45);
-            entity.Property(e => e.FechaHora).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaHora).HasDefaultValueSql("now()");
             entity.Property(e => e.RegistroAfectadoId).HasMaxLength(50);
             entity.Property(e => e.TablaAfectada).HasMaxLength(50);
 
@@ -100,7 +100,7 @@ public partial class SantaUrsulaDbContext : DbContext
             entity.HasIndex(e => new { e.PacienteId, e.Fecha }, "IX_Citas_PacienteId");
 
             entity.Property(e => e.EstadoId).HasDefaultValue((byte)1);
-            entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaCreacion).HasDefaultValueSql("now()");
             entity.Property(e => e.Motivo).HasMaxLength(300);
 
             entity.HasOne(d => d.CreadoPorUsuario).WithMany(p => p.Cita)
@@ -132,7 +132,7 @@ public partial class SantaUrsulaDbContext : DbContext
 
             entity.Property(e => e.Clave).HasMaxLength(50);
             entity.Property(e => e.Descripcion).HasMaxLength(200);
-            entity.Property(e => e.FechaModificacion).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaModificacion).HasDefaultValueSql("now()");
             entity.Property(e => e.Valor).HasMaxLength(400);
         });
 
@@ -156,7 +156,7 @@ public partial class SantaUrsulaDbContext : DbContext
 
             entity.HasIndex(e => e.HistoriaClinicaId, "IX_Documentos_HistoriaClinicaId");
 
-            entity.Property(e => e.FechaGeneracion).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaGeneracion).HasDefaultValueSql("now()");
             entity.Property(e => e.RutaArchivo).HasMaxLength(400);
             entity.Property(e => e.TipoDocumento)
                 .HasMaxLength(30)
@@ -254,12 +254,12 @@ public partial class SantaUrsulaDbContext : DbContext
 
             entity.HasIndex(e => e.NumeroHistoria, "UQ_Historias_NumeroHistoria")
                 .IsUnique()
-                .HasFilter("([NumeroHistoria] IS NOT NULL)");
+                .HasFilter("(\"NumeroHistoria\" IS NOT NULL)");
 
             entity.Property(e => e.AntecedentesFamiliares).HasMaxLength(500);
             entity.Property(e => e.AntecedentesPatologicos).HasMaxLength(500);
             entity.Property(e => e.EstadoId).HasDefaultValue((byte)1);
-            entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaCreacion).HasDefaultValueSql("now()");
             entity.Property(e => e.Gestante).HasMaxLength(10);
             entity.Property(e => e.MedicacionActual).HasMaxLength(500);
             entity.Property(e => e.MotivoAnulacion).HasMaxLength(300);
@@ -305,7 +305,7 @@ public partial class SantaUrsulaDbContext : DbContext
 
             entity.Property(e => e.Concepto).HasMaxLength(200);
             entity.Property(e => e.Debe).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.FechaRegistro).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaRegistro).HasDefaultValueSql("now()");
             entity.Property(e => e.Haber).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.HistoriaClinica).WithMany(p => p.MovimientosCuenta)
@@ -345,13 +345,13 @@ public partial class SantaUrsulaDbContext : DbContext
 
             entity.HasIndex(e => new { e.HistoriaClinicaId, e.PiezaDentalId, e.CaraDentalId }, "UQ_Odontograma_Historia_Pieza_Cara")
                 .IsUnique()
-                .HasFilter("([CaraDentalId] IS NOT NULL)");
+                .HasFilter("(\"CaraDentalId\" IS NOT NULL)");
 
             entity.HasIndex(e => new { e.HistoriaClinicaId, e.PiezaDentalId }, "UQ_Odontograma_Historia_Pieza_SinCara")
                 .IsUnique()
-                .HasFilter("([CaraDentalId] IS NULL)");
+                .HasFilter("(\"CaraDentalId\" IS NULL)");
 
-            entity.Property(e => e.FechaRegistro).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaRegistro).HasDefaultValueSql("now()");
             entity.Property(e => e.Observacion).HasMaxLength(300);
 
             entity.HasOne(d => d.CaraDental).WithMany(p => p.OdontogramaDetalles)
@@ -391,7 +391,7 @@ public partial class SantaUrsulaDbContext : DbContext
             entity.Property(e => e.DomicilioActual).HasMaxLength(250);
             entity.Property(e => e.Email).HasMaxLength(150);
             entity.Property(e => e.EstadoCivil).HasMaxLength(20);
-            entity.Property(e => e.FechaRegistro).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaRegistro).HasDefaultValueSql("now()");
             entity.Property(e => e.LugarNacimiento).HasMaxLength(150);
             entity.Property(e => e.LugarProcedencia).HasMaxLength(150);
             entity.Property(e => e.NombreAcompanante).HasMaxLength(150);
@@ -500,7 +500,7 @@ public partial class SantaUrsulaDbContext : DbContext
             entity.Property(e => e.Estado)
                 .HasMaxLength(20)
                 .HasDefaultValue("Planificado");
-            entity.Property(e => e.FechaAplicacion).HasDefaultValueSql("(CONVERT([date],getdate()))");
+            entity.Property(e => e.FechaAplicacion).HasDefaultValueSql("CURRENT_DATE");
             entity.Property(e => e.Observacion).HasMaxLength(300);
             entity.Property(e => e.Precio).HasColumnType("decimal(10, 2)");
 
@@ -540,13 +540,13 @@ public partial class SantaUrsulaDbContext : DbContext
 
             entity.HasIndex(e => e.Email, "UQ_Usuarios_Email")
                 .IsUnique()
-                .HasFilter("([Email] IS NOT NULL)");
+                .HasFilter("(\"Email\" IS NOT NULL)");
 
             entity.HasIndex(e => e.NombreUsuario, "UQ_Usuarios_NombreUsuario").IsUnique();
 
             entity.Property(e => e.Activo).HasDefaultValue(true);
             entity.Property(e => e.Email).HasMaxLength(150);
-            entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(sysdatetime())");
+            entity.Property(e => e.FechaCreacion).HasDefaultValueSql("now()");
             entity.Property(e => e.NombreCompleto).HasMaxLength(150);
             entity.Property(e => e.NombreUsuario).HasMaxLength(50);
             entity.Property(e => e.PasswordHash).HasMaxLength(256);
