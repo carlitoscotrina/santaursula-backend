@@ -9,11 +9,15 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("SantaUrsulaDB");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException("Falta ConnectionStrings:SantaUrsulaDB en la configuración. En desarrollo usa User Secrets; en producción usa la variable de entorno ConnectionStrings__SantaUrsulaDB.");
+}
+
 // Conexión con SQL Server
 builder.Services.AddDbContext<SantaUrsulaDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("SantaUrsulaDB")
-    ));
+    options.UseSqlServer(connectionString));
 
 // Servicios básicos de la API
 builder.Services.AddControllers()
@@ -31,7 +35,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<JwtTokenService>();
 
 var jwtSection = builder.Configuration.GetSection("Jwt");
-var jwtKey = jwtSection["Key"] ?? throw new InvalidOperationException("Falta Jwt:Key en appsettings.json.");
+var jwtKey = jwtSection["Key"];
+if (string.IsNullOrWhiteSpace(jwtKey))
+{
+    throw new InvalidOperationException("Falta Jwt:Key en la configuración. En desarrollo usa User Secrets; en producción usa la variable de entorno Jwt__Key.");
+}
 
 builder.Services.AddAuthentication(options =>
 {
