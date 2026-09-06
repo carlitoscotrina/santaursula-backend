@@ -92,7 +92,18 @@ app.Use(async (context, next) =>
     if (context.Request.Path.StartsWithSegments("/swagger"))
     {
         var swaggerKey = builder.Configuration["SwaggerKey"];
-        if (context.Request.Query["key"] != swaggerKey)
+
+        // Si viene con la clave correcta en la URL, la guardamos en una cookie
+        if (context.Request.Query["key"] == swaggerKey)
+        {
+            context.Response.Cookies.Append("SwaggerAccess", swaggerKey!, new CookieOptions
+            {
+                HttpOnly = true,
+                MaxAge = TimeSpan.FromHours(4)
+            });
+        }
+        // Si no viene la clave en la URL, revisamos si ya la tiene guardada en cookie
+        else if (context.Request.Cookies["SwaggerAccess"] != swaggerKey)
         {
             context.Response.StatusCode = 404;
             return;
