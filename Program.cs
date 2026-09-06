@@ -15,7 +15,7 @@ if (string.IsNullOrWhiteSpace(connectionString))
     throw new InvalidOperationException("Falta ConnectionStrings:SantaUrsulaDB en la configuración. En desarrollo usa User Secrets; en producción usa la variable de entorno ConnectionStrings__SantaUrsulaDB.");
 }
 
-// Conexión con SQL Server
+// Conexión con PostgreSQL
 builder.Services.AddDbContext<SantaUrsulaDbContext>(options =>
     options.UseNpgsql(connectionString));
 
@@ -82,11 +82,8 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Swagger
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
