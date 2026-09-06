@@ -68,12 +68,17 @@ builder.Services.AddAuthorization(options =>
         .Build();
 });
 
-// CORS básico para desarrollo (ajustar en producción)
+// CORS: local para desarrollo + URL real del frontend en producción
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("LocalDev", policy =>
+    options.AddPolicy("AppCors", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:5173", "http://localhost:4200")
+        policy.WithOrigins(
+                "http://localhost:3000",
+                "http://localhost:5173",
+                "http://localhost:4200",
+                "https://santaursula-frontend.onrender.com"
+              )
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -82,12 +87,26 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Swagger
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/swagger"))
+    {
+        var swaggerKey = builder.Configuration["SwaggerKey"];
+        if (context.Request.Query["key"] != swaggerKey)
+        {
+            context.Response.StatusCode = 404;
+            return;
+        }
+    }
+    await next();
+});
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseCors("LocalDev");
+app.UseCors("AppCors");
 
 app.UseAuthentication();
 app.UseAuthorization();
