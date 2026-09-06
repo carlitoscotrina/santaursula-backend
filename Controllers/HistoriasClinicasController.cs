@@ -117,7 +117,7 @@ public class HistoriasClinicasController : ControllerBase
             Gestante = dto.Gestante?.Trim(),
             Observaciones = dto.Observaciones?.Trim(),
             EstadoId = dto.EstadoId,
-            FechaCreacion = DateTime.Now
+            FechaCreacion = DateTime.UtcNow
         };
 
         _context.HistoriasClinicas.Add(ent);

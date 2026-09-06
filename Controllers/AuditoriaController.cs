@@ -44,7 +44,7 @@ public class AuditoriaController : ControllerBase
         var ent = new Data.Models.Auditorium
         {
             UsuarioId = dto.UsuarioId,
-            FechaHora = DateTime.Now,
+            FechaHora = DateTime.UtcNow,
             Accion = dto.Accion,
             TablaAfectada = dto.TablaAfectada,
             RegistroAfectadoId = dto.RegistroAfectadoId,

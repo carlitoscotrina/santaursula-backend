@@ -40,7 +40,7 @@ public class AuthController : ControllerBase
 
         var (token, expiraEn) = _jwtTokenService.GenerarToken(usuario, usuario.Rol?.Nombre);
 
-        usuario.UltimoAcceso = DateTime.Now;
+        usuario.UltimoAcceso = DateTime.UtcNow;
         await _context.SaveChangesAsync();
 
         return Ok(new LoginResponseDto

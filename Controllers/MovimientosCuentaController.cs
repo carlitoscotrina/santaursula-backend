@@ -94,7 +94,7 @@ public class MovimientosCuentaController : ControllerBase
             Debe = dto.Debe,
             Haber = dto.Haber,
             RegistradoPorUsuarioId = dto.RegistradoPorUsuarioId,
-            FechaRegistro = DateTime.Now
+            FechaRegistro = DateTime.UtcNow
         };
 
         _context.MovimientosCuenta.Add(ent);

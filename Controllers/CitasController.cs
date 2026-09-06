@@ -90,7 +90,7 @@ public class CitasController : ControllerBase
             EstadoId = dto.EstadoId,
             HistoriaClinicaId = dto.HistoriaClinicaId,
             CreadoPorUsuarioId = dto.CreadoPorUsuarioId,
-            FechaCreacion = DateTime.Now
+            FechaCreacion = DateTime.UtcNow
         };
 
         _context.Citas.Add(cita);

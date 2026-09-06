@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SantaUrsula.API.Data;
@@ -175,7 +175,7 @@ public class PacientesController : ControllerBase
             NombreAcompanante = dto.NombreAcompanante?.Trim(),
             CelularAcompanante = dto.CelularAcompanante?.Trim(),
 
-            FechaRegistro = DateTime.Now,
+            FechaRegistro = DateTime.UtcNow,
             Activo = true
         };
 
@@ -213,7 +213,7 @@ public class PacientesController : ControllerBase
             Activo = paciente.Activo
         };
 
-        // AÃ±adir nombre del sexo a la respuesta
+        // Añadir nombre del sexo a la respuesta
         var sexo = await _context.Sexos.FindAsync(paciente.SexoId);
         respuesta.Sexo = sexo?.Nombre;
 
@@ -348,7 +348,7 @@ public class PacientesController : ControllerBase
             });
         }
 
-        // EliminaciÃ³n lÃ³gica
+        // Eliminación lógica
         paciente.Activo = false;
 
         await _context.SaveChangesAsync();

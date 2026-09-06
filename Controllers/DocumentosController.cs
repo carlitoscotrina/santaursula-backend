@@ -45,7 +45,7 @@ public class DocumentosController : ControllerBase
             TipoDocumento = dto.TipoDocumento,
             RutaArchivo = dto.RutaArchivo,
             Version = dto.Version,
-            FechaGeneracion = DateTime.Now,
+            FechaGeneracion = DateTime.UtcNow,
             GeneradoPorUsuarioId = dto.GeneradoPorUsuarioId
         };
 

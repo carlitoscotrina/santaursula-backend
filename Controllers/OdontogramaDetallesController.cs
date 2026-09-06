@@ -83,7 +83,7 @@ public class OdontogramaDetallesController : ControllerBase
             CaraDentalId = dto.CaraDentalId,
             EstadoId = dto.EstadoId,
             Observacion = dto.Observacion,
-            FechaRegistro = DateTime.Now
+            FechaRegistro = DateTime.UtcNow
         };
 
         _context.OdontogramaDetalles.Add(ent);

@@ -72,7 +72,7 @@ public class UsuariosController : ControllerBase
             RolId = dto.RolId,
             Email = dto.Email?.Trim(),
             Activo = dto.Activo,
-            FechaCreacion = DateTime.Now,
+            FechaCreacion = DateTime.UtcNow,
             PasswordHash = string.Empty // No aceptar PasswordHash; handle separately
         };
 
