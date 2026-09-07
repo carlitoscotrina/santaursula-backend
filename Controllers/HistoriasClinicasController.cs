@@ -102,7 +102,7 @@ public class HistoriasClinicasController : ControllerBase
         {
             PacienteId = dto.PacienteId,
             NumeroHistoria = dto.NumeroHistoria?.Trim(),
-            FechaHoraAtencion = dto.FechaHoraAtencion,
+            FechaHoraAtencion = DateTime.SpecifyKind(dto.FechaHoraAtencion, DateTimeKind.Utc),
             ProfesionalId = dto.ProfesionalId,
             MotivoConsulta = dto.MotivoConsulta?.Trim(),
             Dolor = dto.Dolor,
@@ -164,7 +164,7 @@ public class HistoriasClinicasController : ControllerBase
         if (ent == null) return NotFound(new { mensaje = "Historia clinica no encontrada." });
 
         if (dto.NumeroHistoria != null) ent.NumeroHistoria = dto.NumeroHistoria.Trim();
-        if (dto.FechaHoraAtencion.HasValue) ent.FechaHoraAtencion = dto.FechaHoraAtencion.Value;
+        if (dto.FechaHoraAtencion.HasValue) ent.FechaHoraAtencion = DateTime.SpecifyKind(dto.FechaHoraAtencion.Value, DateTimeKind.Utc);
         if (dto.ProfesionalId.HasValue)
         {
             var profExiste = await _context.Usuarios.AnyAsync(u => u.Id == dto.ProfesionalId.Value);
