@@ -185,7 +185,7 @@ public class HistoriasClinicasController : ControllerBase
         if (dto.Gestante != null) ent.Gestante = dto.Gestante.Trim();
         if (dto.Observaciones != null) ent.Observaciones = dto.Observaciones.Trim();
         if (dto.EstadoId.HasValue) ent.EstadoId = dto.EstadoId.Value;
-        if (dto.FechaCierre.HasValue) ent.FechaCierre = dto.FechaCierre;
+        if (dto.FechaCierre.HasValue) ent.FechaCierre = DateTime.SpecifyKind(dto.FechaCierre.Value, DateTimeKind.Utc);
 
         await _context.SaveChangesAsync();
         return NoContent();
